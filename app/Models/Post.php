@@ -26,7 +26,7 @@ class Post extends Model
     
     public function getTable()
     {
-        return config('wordpress.table_prefix', 'wp_') . $this->table;
+        return config('wordpress.migrate.table.posts', 'wp_posts');
     }
 
     /**

@@ -20,7 +20,7 @@ class PostMeta extends Model
 
     public function getTable()
     {
-        return config('database.wordpress.table_prefix') . $this->table;
+        return config('wordpress.migrate.table.postmeta', 'wp_postmeta');
     }
 
     public function getMetaValueAttribute($value)

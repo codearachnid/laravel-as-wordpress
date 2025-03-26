@@ -20,7 +20,7 @@ class UserMeta extends Model
 
     public function getTable()
     {
-        return config('wordpress.table_prefix', 'wp_') . $this->table;
+        return config('wordpress.migrate.table.usermeta', 'wp_usermeta');
     }
 
     public function user() : BelongsTo

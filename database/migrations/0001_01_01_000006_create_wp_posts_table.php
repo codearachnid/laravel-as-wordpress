@@ -18,7 +18,7 @@ return new class extends Migration
         if (!Schema::hasTable($tablePosts)) {
             Schema::create($tablePosts, function (Blueprint $table) {
                 $table->bigIncrements('ID');
-                $table->unsignedBigInteger('post_author');
+                $table->unsignedBigInteger('post_author')->nullable();
                 $table->dateTime('post_date');
                 $table->dateTime('post_date_gmt');
                 $table->longText('post_content');

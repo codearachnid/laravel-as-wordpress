@@ -16,18 +16,18 @@ return new class extends Migration
         if (!Schema::hasTable($tablename)) {
             Schema::create($tablename, function (Blueprint $table) {
                 $table->bigIncrements('link_id');
-                $table->string('link_url', 255)->default('');
-                $table->string('link_name', 255)->default('');
-                $table->string('link_image', 255)->default('');
-                $table->string('link_target', 25)->default('');
-                $table->string('link_description', 255)->default('');
+                $table->string('link_url', 255)->nullable();
+                $table->string('link_name', 255)->nullable();
+                $table->string('link_image', 255)->nullable();
+                $table->string('link_target', 25)->nullable();
+                $table->string('link_description', 255)->nullable();
                 $table->string('link_visible', 20)->default('Y');
-                $table->unsignedBigInteger('link_owner')->default(1);
+                $table->unsignedBigInteger('link_owner')->default(1)->nullable();
                 $table->integer('link_rating')->default(0);
-                $table->dateTime('link_updated')->default('0000-00-00 00:00:00');
-                $table->string('link_rel', 255)->default('');
-                $table->mediumText('link_notes'); // NOT NULL, no default needed
-                $table->string('link_rss', 255)->default('');
+                $table->dateTime('link_updated');
+                $table->string('link_rel', 255)->nullable();
+                $table->mediumText('link_notes')->nullable();
+                $table->string('link_rss', 255)->nullable();
 
                 $table->foreign('link_owner')
                       ->references('ID')
