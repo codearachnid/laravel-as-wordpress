@@ -2,6 +2,8 @@
 
 Welcome to *WordPress Reborn*, where we take the creaky, duct-taped chaos of WordPress and resurrect it as a Laravel masterpiece—because who doesn’t love a redemption story with better architecture? Powered by FilamentPHP and Laravel’s pristine best practices, this project overlays an existing WordPress database, preserving its quirky schema while giving you a modern CMS that doesn’t make you question your life choices. Say goodbye to plugin roulette and hello to sanity, one Eloquent query at a time.
 
+> **_ Should you use this in production _** - I recommend this should never see the light of day. But here we are, use at your own risk and enjoyment.
+
 ## What’s This All About?
 This isn’t a rebuild—it’s a hostile takeover of WordPress’s soul, keeping its wp_ prefixed tables intact while Laravel flexes its superiority. We’re talking wp_posts, wp_postmeta, wp_users, wp_comments, wp_options—the whole dysfunctional family—wrapped in Eloquent models and services that mimic WordPress’s WP_Query, WP_User_Query, and friends. Built to coexist with an active WordPress install, this is your escape hatch from PHP’s past without burning the bridge behind you.
 
@@ -16,11 +18,13 @@ Meta & Taxonomies: Filter by wp_postmeta and wp_term_relationships like a pro—
 - Laravel Best Practices: Dependency injection, services, and Eloquent—because we’re not savages.
 
 ## Getting Started
-1. Clone the Repo: `git clone https://github.com/codearachnid/codearachnid/laravel-as-wordpress` your hero’s journey here.
-2. Install Dependencies: Run `composer install` and hope your PHP version isn’t stuck in 2010.
-3. Set Up Your .env: Copy `.env.example` to `.env`, point `DB_DATABASE` to your WordPress database, and set `WP_TABLE_PREFIX=wp_` (or whatever your install uses).
-4. Run Migrations: `php artisan migrate` to tweak `wp_users` with a `password` column and `remember_token` — don’t worry, we’re gentle with your legacy data.
-5. Launch It: `php artisan serve`, navigate to `/posts`, `/users`, `/comments`, or `/options`, and watch Laravel tame the WordPress beast.
+1. **Clone the Repo**: `git clone https://github.com/codearachnid/codearachnid/laravel-as-wordpress.git`—start your hero’s journey here.
+2. **Install Dependencies**: Run `composer install` and hope your PHP version isn’t stuck in 2010.
+3. **Set Up Your .env**: Copy `.env.example` to `.env`, point `DB_DATABASE` to your WordPress database, and set `WP_TABLE_PREFIX` to match your install (e.g., `wp_`).
+4. **Configure WordPress Settings**: Tweak `config/wordpress.php` or `.env` with your `WP_HOME`, `WP_DEBUG`, and salts—like `wp-config.php`, but less archaic.
+5. **Run Migrations**: `php artisan migrate` to add `password` and `remember_token` to `wp_users`—we’re gentle with your legacy data.
+6. **Launch It**: `php artisan serve`, hit `/posts`, `/users`, `/comments`, or `/options`, and watch Laravel tame the WordPress beast.
+7. **Seed Default Data**: Run `php artisan db:seed` to populate your database with WordPress’s default “Hello world!” post, admin user, and more—because who doesn’t love a fresh start?
 
 ## Key Components
 `PostQueryService`: Replaces `WP_Query` with filters for `post_type`, `meta_query`, `tax_query`, and more. (add a PR with your improvements)
