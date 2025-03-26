@@ -73,6 +73,7 @@ return [
             'comments' => 'wp_comments',
             'commentmeta' => 'wp_commentmeta',
             'options' => 'wp_options',
+            'links' => 'wp_links',
         ],
         'allow_drop' => env('WP_ALLOW_DROP', false),
     ]
