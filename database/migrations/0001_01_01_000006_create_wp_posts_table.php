@@ -57,10 +57,17 @@ return new class extends Migration
         if (!Schema::hasTable($tablePostmeta)) {
             Schema::create($tablePostmeta, function (Blueprint $table) use ($tablePosts) {
                 $table->bigIncrements('meta_id');
-                $table->unsignedBigInteger('post_id');
-                $table->string('meta_key', 255);
+                $table->unsignedBigInteger('post_id')->default(0);
+                $table->string('meta_key', 255)->nullable();
                 $table->longText('meta_value')->nullable();
-                $table->foreign('post_id')->references('ID')->on( $tablePosts )->onDelete('cascade');
+                
+                $table->index('post_id');
+                $table->index('meta_key');
+                
+                $table->foreign('post_id')
+                    ->references('ID')
+                    ->on('wp_posts')
+                    ->onDelete('cascade');
             });
         }
     }
