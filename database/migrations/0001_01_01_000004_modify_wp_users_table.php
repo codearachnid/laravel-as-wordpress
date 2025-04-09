@@ -23,27 +23,38 @@ return new class extends Migration
         } else {
             Schema::create( $tableUsers, function (Blueprint $table) {
                 $table->bigIncrements('ID');
-                $table->string('user_login', 60);
-                $table->string('user_pass', 255);
-                $table->string('user_nicename', 50);
-                $table->string('user_email', 100)->nullable();
-                $table->string('user_url', 100)->nullable();
-                $table->dateTime('user_registered');
-                $table->string('user_activation_key', 255)->nullable();
-                $table->integer('user_status')->default(0);
-                $table->string('display_name', 250);
-                $table->string('password', 255)->nullable(); // Laravel bcrypt column
+                $table->string('user_login', 60)->default('');
+                $table->string('user_pass', 255)->default('');
+                $table->string('user_nicename', 50)->default('');
+                $table->string('user_email', 100)->nullable()->default('');
+                $table->string('user_url', 100)->nullable()->default('');
+                $table->dateTime('user_registered')->default('0000-00-00 00:00:00');
+                $table->string('user_activation_key', 255)->nullable()->default('');
+                $table->integer('user_status')->default(0)->default(0);
+                $table->string('display_name', 250)->default('');
+                $table->string('password', 255)->nullable();
                 $table->string('remember_token', 100)->nullable();
+
+                $table->index('user_login', 'user_login_key');
+                $table->index('user_nicename');
+                $table->index('user_email');
             });
         }
 
         if (!Schema::hasTable( $tableUsermeta )) {
             Schema::create( $tableUsermeta, function (Blueprint $table) use ($tableUsers) {
                 $table->bigIncrements('umeta_id');
-                $table->unsignedBigInteger('user_id');
-                $table->string('meta_key', 255);
+                $table->unsignedBigInteger('user_id')->default(0);
+                $table->string('meta_key', 255)->nullable();
                 $table->longText('meta_value')->nullable();
-                $table->foreign('user_id')->references('ID')->on( $tableUsers )->onDelete('cascade');
+
+                $table->index('user_id');
+                $table->index('meta_key');
+            
+                $table->foreign('user_id')
+                    ->references('ID')
+                    ->on($tableUsers)
+                    ->onDelete('cascade');
             });
         }
     }

@@ -18,29 +18,39 @@ return new class extends Migration
         if (!Schema::hasTable($tablePosts)) {
             Schema::create($tablePosts, function (Blueprint $table) {
                 $table->bigIncrements('ID');
-                $table->unsignedBigInteger('post_author')->nullable();
-                $table->dateTime('post_date');
-                $table->dateTime('post_date_gmt');
+                $table->unsignedBigInteger('post_author')->default(0);
+                $table->dateTime('post_date')->default('0000-00-00 00:00:00');
+                $table->dateTime('post_date_gmt')->default('0000-00-00 00:00:00');
                 $table->longText('post_content');
                 $table->text('post_title');
-                $table->text('post_excerpt');
+                $table->text('post_excerpt')->nullable();
                 $table->string('post_status', 20)->default('publish');
                 $table->string('comment_status', 20)->default('open');
                 $table->string('ping_status', 20)->default('open');
-                $table->string('post_password', 255)->nullable();
-                $table->string('post_name', 200);
+                $table->string('post_password', 255)->default('');
+                $table->string('post_name', 200)->default('');
                 $table->text('to_ping')->nullable();
                 $table->text('pinged')->nullable();
-                $table->dateTime('post_modified');
-                $table->dateTime('post_modified_gmt');
+                $table->dateTime('post_modified')->default('0000-00-00 00:00:00');
+                $table->dateTime('post_modified_gmt')->default('0000-00-00 00:00:00');
                 $table->longText('post_content_filtered')->nullable();
                 $table->unsignedBigInteger('post_parent')->default(0);
-                $table->string('guid', 255)->nullable();
+                $table->string('guid', 255)->nullable()->default('');
                 $table->integer('menu_order')->default(0);
                 $table->string('post_type', 20)->default('post');
-                $table->string('post_mime_type', 100)->nullable();
+                $table->string('post_mime_type', 100)->default('');
                 $table->bigInteger('comment_count')->default(0);
-                $table->foreign('post_author')->references('ID')->on(config('wordpress.migrate.table.users', 'wp_users'))->onDelete('set null');
+                
+                $table->index('post_name');
+                $table->index(['post_type', 'post_status']);
+                $table->index('post_date');
+                $table->index('post_parent');
+                $table->index('post_author');
+                
+                $table->foreign('post_author')
+                    ->references('ID')
+                    ->on(config('wordpress.migrate.table.users', 'wp_users'))
+                    ->onDelete('set null');
             });
         }
 
